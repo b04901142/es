@@ -43,7 +43,7 @@ int main(){
    char oneline[1024];
    file.getline(oneline,1024);
    while(file.getline(oneline,1024)){
-cout << oneline<<endl;
+//cout << oneline<<endl;
 //cout << "begin\n";
       size_t i = 0;
 		int space = 0;
