@@ -9,13 +9,15 @@
 #include <string.h>     /* String handling */
 /* prototype for thread routine */
 void print_message_function ( void *ptr, void *arg);
+
+
 /* struct to hold data to be passed to a thread
 this shows how multiple data items can be passed to a thread */
 typedef struct str_thdata{
 	int thread_no;
 	char message[100];
+	pthread_t tid;
 } thdata;
-
 pthread_t tid;
 
 int main(){
@@ -28,10 +30,12 @@ int main(){
 	data2.thread_no = 2;
 	strcpy(data2.message, "Hi!");
 	/* create threads 1 and 2 */
-	pthread_create (&thread2, NULL, (void *) &print_message_function, (void *) &data2);
-	tid=thread2;
 	pthread_create (&thread1, NULL, (void *) &print_message_function, (void *) &data1);
-	tid=thread1;
+	data1.tid=thread1;
+	tid = thread1;
+	pthread_create (&thread2, NULL, (void *) &print_message_function, (void *) &data2);
+	data2.tid=thread2;
+	tid = thread2;
 	pthread_join(thread1, NULL);
 	pthread_join(thread2, NULL);
 	exit(0);    /* exit */
@@ -42,12 +46,15 @@ int main(){
 hreads used
 * it accepts a void pointer
 **/
-void print_message_function ( void *ptr, void *arg ){
-	thdata *data;
-	data = (thdata *) ptr;  /* type cast to a pointer to thdata */
+void print_message_function ( void *ptr, void *arg){
+	thdata *data = (thdata *) ptr;  /* type cast to a pointer to thdata */
+	//pthread_t *tid = (pthread_t *) ptr1;
+	//tid = (pthread_t *) arg;
+//pthread_t a = *arg;
 	/* do the work */
    //pid_t = (pid_t)syscall(SYS_gettid);
-	printf("Thread %d (thread id: %lu) says %s \n", data->thread_no, tid, data->message);
+	printf("Thread %d (thread id: %lu) says %s \n", data->thread_no, data->tid, data->message);
+	printf("wrong!!:%lu\n", tid);
 	printf("UID: %u\nPID: %u\nPPID: %u\nTID: %lu\n", geteuid(), getpid(), getppid(), syscall(SYS_gettid));
 	sleep(10);
 	pthread_exit(0); /* exit */
