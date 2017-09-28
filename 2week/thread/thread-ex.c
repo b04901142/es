@@ -41,6 +41,7 @@ int main(){
 	exit(0);    /* exit */
 } /* main() */
 
+
 /**
 * print_message_function is used as the start routine for the t
 hreads used
