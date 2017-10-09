@@ -2,7 +2,7 @@ var bleno = require('../..');
 
 var BlenoPrimaryService = bleno.PrimaryService;
 
-var EchoCharacteristic = require('./characteristic');
+var EchoCharacteristic = require('./server_characteristic');
 
 console.log('bleno - echo');
 
